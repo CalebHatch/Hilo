@@ -11,6 +11,11 @@ class Player:
         self.points = points
 
 
+player = Player(300)
+
+game_loop = True
+
+
 # Contains the results for the three different end states of the game.
 class GameEndResults:
     global game_second_card, player_guess
@@ -42,16 +47,8 @@ class GameEndResults:
         quit()
 
 
-player = Player(300)
-
-game_loop = True
-
-
 def main():
     global player, game_loop, game_second_card, player_guess
-    player = Player(300)
-
-    game_loop = True
 
     while game_loop:
         game_first_card = random.randint(1, 13)
