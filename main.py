@@ -1,3 +1,7 @@
+"""
+Hilo Game
+by: Caleb Hatch
+"""
 import random
 
 
@@ -6,35 +10,53 @@ class Player:
         self.points = points
 
 
-player_1 = Player(300)
-player_2 = Player(300)
+player = Player(300)
 
-player_1_turn = True
+game_loop = True
+player_turn = True
+player_input_loop = False
 
-while player_1_turn:
-    print("Player 1 has " + str(player_1.points) + " points.")
-    print("Player 2 has " + str(player_2.points) + " points.")
-    print("")
 
-    random_number = random.randint(1, 9)
+def game_over():
+    global game_loop
+    print("Game over!\nGoodbye.")
+    quit()
 
-    player_1_num = input("Guess a number (1-9): ")
-    player_1_num = int(str(player_1_num))
 
-    if player_1_num < random_number:
-        player_1.points = (player_1.points - 75)
-        print("")
-        print("The card was " + str(random_number) + ", and you guessed " + str(player_1_num) +
-              ". Better luck next time!")
+while game_loop:
+    game_first_card = random.randint(1, 13)
+    print("The card is: " + str(game_first_card) + ".")
 
-    if player_1_num > random_number:
-        player_1.points = (player_1.points + 100)
-        print("")
-        print("The card was " + str(random_number) + ", and you guessed" + str(player_1_num) + ". You got it!")
+    player_guess = input("Higher or Lower? [h/l]: ")
 
-    if player_1.points >= 400:
-        print("")
-        print("Your score was " + str(player_1.points) + ". You win!")
-        print("")
-        player_1_turn = False
-        break
+    game_second_card = random.randint(2, 12)
+
+    if game_first_card > game_second_card:
+        if player_guess == str("l"):
+            print("The card was " + str(game_second_card) + ", and you guessed " + str(player_guess) + ". You got it!")
+            player.points = (player.points + 100)
+        elif player_guess == str("h"):
+            print("The card was " + str(game_second_card) + ", and you guessed " + str(player_guess) +
+                  ". Better luck next time!")
+            player.points = (player.points - 75)
+    elif game_first_card < game_second_card:
+        if player_guess == str("h"):
+            print("The card was " + str(game_second_card) + ", and you guessed " + str(player_guess) + ". You got it!")
+            player.points = (player.points + 100)
+        elif player_guess == str("l"):
+            print("The card was " + str(game_second_card) + ", and you guessed " + str(player_guess) +
+                  ". Better luck next time!")
+            player.points = (player.points - 75)
+
+    print("Your score is: " + str(player.points) + ".")
+    user_retry = input("Play again? [y/n]: ")
+
+    if player.points < 0:
+        print("Your score reached below zero!")
+        game_over()
+
+    if user_retry == str("y"):
+        game_loop = True
+        continue
+    else:
+        game_over()
